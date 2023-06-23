@@ -13,7 +13,7 @@ const QuizList: React.FC<QuizListProps> = ({ quizList }) => {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {quizList.map((quiz) => (
-        <QuizCard key={quiz._id} quiz={quiz} />
+        <QuizCard key={quiz._id.toString()} quiz={quiz} />
       ))}
     </ul>
   );
