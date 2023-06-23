@@ -54,6 +54,10 @@ module.exports = {
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
       },
+      backgroundImage: {
+        "header-bg": "url('/assets/header-bg.jpg')",
+        "header-bg-2": "url('/assets/header-bg-2.jpg')",
+      },
     },
   },
   variants: {},
