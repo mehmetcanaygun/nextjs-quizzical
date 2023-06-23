@@ -62,3 +62,9 @@ export const formatDate = (dateString: string): string => {
   const formattedDate = formatDistanceToNow(date, { addSuffix: true });
   return formattedDate;
 };
+
+export const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message;
+
+  return String(error);
+};

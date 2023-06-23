@@ -1,7 +1,7 @@
 import QuizList from "@/components/quiz/QuizList";
 import Header from "@/components/ui/Header";
+import { getAllQuizzes } from "@/services";
 import { Quiz } from "@/types";
-import { fetchDummyQuizList } from "@/utils";
 
 type HomePageProps = {
   quizList: Quiz[];
@@ -20,7 +20,7 @@ const HomePage: React.FC<HomePageProps> = ({ quizList }) => {
 };
 
 export async function getServerSideProps() {
-  const quizList = await fetchDummyQuizList();
+  const quizList = await getAllQuizzes();
 
   return {
     props: {
