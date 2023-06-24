@@ -6,7 +6,7 @@ import QuizOptions from "@/components/quiz/QuizOptions";
 import NewQuestions from "@/components/quiz/NewQuestions";
 import Spinner from "@/components/ui/Spinner";
 import { Question, QuizOptions as QuizOptionsType } from "@/types";
-import TrashIcon from "@/public/assets/trash.svg";
+import TrashIcon from "../public/assets/trash.svg";
 import { showToast } from "@/utils";
 
 type CreatePageProps = {

@@ -8,8 +8,8 @@ import ResultModal from "@/components/quiz/ResultModal";
 import Spinner from "@/components/ui/Spinner";
 import { Participant, QuizDetail, SolveQuizParams, UserAnswer } from "@/types";
 import { formatDate, generateUniqueUserTag, showToast } from "@/utils";
-import HashIcon from "@/public/assets/Hash.svg";
-import ZapIcon from "@/public/assets/zap.svg";
+import HashIcon from "../../public/assets/hash.svg";
+import ZapIcon from "../../public/assets/zap.svg";
 
 type QuizPageProps = {
   quizDetail: QuizDetail;
