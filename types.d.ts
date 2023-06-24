@@ -39,3 +39,11 @@ export type QuizOptions = {
   categories: string[];
   difficulties: string[];
 };
+
+export type CreateQuizParams = {
+  owner: string;
+  genre: string;
+  difficulty: string;
+  questions: Question[];
+  isPublic: boolean;
+};

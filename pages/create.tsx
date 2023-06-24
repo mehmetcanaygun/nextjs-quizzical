@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import { getQuizOptions } from "@/services";
+import { getQuizOptions, createQuiz } from "@/services";
 import QuizOptions from "@/components/quiz/QuizOptions";
 import NewQuestions from "@/components/quiz/NewQuestions";
 import { Question, QuizOptions as QuizOptionsType } from "@/types";
@@ -16,6 +16,9 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("");
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [username, setUsername] = useState<string>("");
+  const [privacy, setPrivacy] = useState<string>("Public");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const category = e.target.value;
@@ -31,6 +34,60 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
   const handleSetQuestions = (newQuestion: Question) => {
     setQuestions((prev) => [...prev, newQuestion]);
   };
+
+  const handleCreateQuiz = async () => {
+    // Check min questions length
+    if (questions.length < 5) {
+      alert("You should add at least 5 questions.");
+      return;
+    }
+
+    // Check if category & difficulty is selected
+    if (!selectedCategory || !selectedDifficulty) {
+      alert("You should select both category and difficulty.");
+      return;
+    }
+
+    // Check username
+    if (!username) {
+      alert("You should enter your name.");
+      return;
+    }
+
+    // Create request object
+    const params = {
+      owner: username,
+      genre: selectedCategory,
+      difficulty: selectedDifficulty,
+      questions,
+      isPublic: privacy === "Public",
+    };
+
+    // Make request
+    setLoading(true);
+    const data = await createQuiz(params);
+    setLoading(false);
+
+    if (!data) {
+      alert("Quiz could not be created.");
+    }
+
+    const { message, _id } = data;
+
+    // To-do: Notification
+    alert(`${message}. Quiz ID is: ${_id}`);
+
+    // Clear state
+    setSelectedCategory("");
+    setSelectedDifficulty("");
+    setQuestions([]);
+    setUsername("");
+    setPrivacy("");
+  };
+
+  if (loading) {
+    return <h1 className="text-4xl text-center">LOADING...</h1>;
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -99,6 +156,36 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {/* Name, privacy and create button */}
+      {questions.length >= 5 && (
+        <div className="h-10 flex gap-2">
+          <input
+            type="text"
+            placeholder="What's your name?"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="py-2 px-4 rounded-md shadow"
+          />
+
+          <select
+            id="privacy"
+            value={privacy}
+            onChange={(e) => setPrivacy(e.target.value)}
+            className="py-2 px-4 rounded-md shadow"
+          >
+            <option value="Public">Public</option>
+            <option value="Private">Private</option>
+          </select>
+
+          <button
+            onClick={handleCreateQuiz}
+            className="text-xl font-bold bg-primary text-light hover:bg-blue-600 px-4 rounded-md shadow"
+          >
+            Create
+          </button>
         </div>
       )}
     </div>

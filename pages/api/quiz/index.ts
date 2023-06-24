@@ -40,16 +40,28 @@ export default async function handler(
       const collection = db.collection("quizzes");
 
       // Get request object
-      const {} = req.body;
+      const { owner, genre, difficulty, questions, isPublic } = req.body;
 
       // Create a new quiz object
-      const newQuiz = {};
+      const now = new Date();
+      const newQuiz = {
+        owner,
+        genre,
+        difficulty,
+        questions,
+        isPublic,
+        participants: [],
+        createdAt: now,
+        updatedAt: now,
+      };
 
       // Insert the new quiz into the collection
-      await collection.insertOne(newQuiz);
+      const { insertedId } = await collection.insertOne(newQuiz);
 
       // Return a success message as the response
-      res.status(201).json({ message: "Quiz created successfully", _id: 10 });
+      res
+        .status(201)
+        .json({ message: "Quiz created successfully", _id: insertedId });
 
       client.close();
     } catch (error) {

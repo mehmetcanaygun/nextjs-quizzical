@@ -1,4 +1,4 @@
-import { SolveQuizParams } from "@/types";
+import { SolveQuizParams, CreateQuizParams } from "@/types";
 import { getErrorMessage } from "@/utils";
 
 const BASE_URL = "http://localhost:3000/api";
@@ -88,6 +88,35 @@ export const getQuizOptions = async () => {
     const data = await response.json();
 
     return data.quizOptions;
+  } catch (error) {
+    // To-do: Add notification
+    const errorMessage = getErrorMessage(error);
+    console.log(errorMessage);
+
+    return {};
+  }
+};
+
+export const createQuiz = async (params: CreateQuizParams) => {
+  try {
+    const response = await fetch(`${BASE_URL}/quiz`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+
+    if (!response.ok) {
+      // To-do: Add notification
+      console.log("Something went wrong.");
+      return {};
+    }
+
+    const data = await response.json();
+
+    // message & _id
+    return data;
   } catch (error) {
     // To-do: Add notification
     const errorMessage = getErrorMessage(error);
