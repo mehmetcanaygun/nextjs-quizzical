@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "react-toastify";
 
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -22,4 +23,11 @@ export const generateUniqueUserTag = (): string => {
 export const hasDuplicates = <T>(list: T[]): boolean => {
   const set = new Set(list);
   return set.size !== list.length;
+};
+
+export const showToast = (
+  type: "success" | "warn" | "info" | "error",
+  message: string
+) => {
+  toast[type](message, { theme: "colored", autoClose: 3000 });
 };

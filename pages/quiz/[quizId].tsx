@@ -5,7 +5,7 @@ import { getSingleQuiz, solveQuiz } from "@/services";
 import Questions from "@/components/quiz/Questions";
 import ResultModal from "@/components/quiz/ResultModal";
 import { Participant, QuizDetail, SolveQuizParams, UserAnswer } from "@/types";
-import { formatDate, generateUniqueUserTag } from "@/utils";
+import { formatDate, generateUniqueUserTag, showToast } from "@/utils";
 import HashIcon from "@/public/assets/Hash.svg";
 import ZapIcon from "@/public/assets/zap.svg";
 
@@ -73,7 +73,7 @@ const QuizPage: React.FC = () => {
 
   const handleSolveQuiz = async () => {
     if (!username) {
-      alert("You need to enter a username.");
+      showToast("warn", "You need to enter a username.");
       return;
     }
 

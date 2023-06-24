@@ -6,6 +6,7 @@ import NewQuestions from "@/components/quiz/NewQuestions";
 import { Question, QuizOptions as QuizOptionsType } from "@/types";
 import Edit2Icon from "@/public/assets/edit-2.svg";
 import TrashIcon from "@/public/assets/trash.svg";
+import { showToast } from "@/utils";
 
 type CreatePageProps = {
   quizOptions: QuizOptionsType;
@@ -38,19 +39,19 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
   const handleCreateQuiz = async () => {
     // Check min questions length
     if (questions.length < 5) {
-      alert("You should add at least 5 questions.");
+      showToast("warn", "You should add at least 5 questions.");
       return;
     }
 
     // Check if category & difficulty is selected
     if (!selectedCategory || !selectedDifficulty) {
-      alert("You should select both category and difficulty.");
+      showToast("warn", "You should select both category and difficulty.");
       return;
     }
 
     // Check username
     if (!username) {
-      alert("You should enter your name.");
+      showToast("warn", "You should enter your name.");
       return;
     }
 
@@ -69,7 +70,7 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
     setLoading(false);
 
     if (!data) {
-      alert("Quiz could not be created.");
+      showToast("error", "Quiz could not be created.");
     }
 
     const { message, _id } = data;

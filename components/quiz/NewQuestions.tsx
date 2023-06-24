@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Question } from "@/types";
-import { hasDuplicates } from "@/utils";
+import { hasDuplicates, showToast } from "@/utils";
 
 type NewQuestionsProps = {
   questions: Question[];
@@ -68,37 +68,37 @@ const NewQuestions: React.FC<NewQuestionsProps> = ({
   const handleCheckQuestion = () => {
     // Check questions length
     if (questions.length === 10) {
-      alert("You cannot add more than 10 questions.");
+      showToast("warn", "You cannot add more than 10 questions.");
       return;
     }
 
     // Check if question empty
     if (!newQuestion) {
-      alert("You should enter a question.");
+      showToast("warn", "You should enter a question.");
       return;
     }
 
     // Check if question exists
     if (questions.find((q) => q.question === newQuestion)) {
-      alert("This question exists.");
+      showToast("warn", "This question exists.");
       return;
     }
 
     // Check if there are 3 answers
     if (Object.values(answers).filter((answer) => !!answer).length < 3) {
-      alert("You should fill all answers.");
+      showToast("warn", "You should fill all answers.");
       return;
     }
 
     // Check if answers are same
     if (hasDuplicates(Object.values(answers))) {
-      alert("Some answers are the same.");
+      showToast("warn", "Some answers are the same.");
       return;
     }
 
     // Check if one of correct answer checkboxes is selected
     if (!Object.values(checkboxState).find((item) => item)) {
-      alert("You should check the correct answer.");
+      showToast("warn", "You should check the correct answer.");
       return;
     }
 
@@ -125,6 +125,8 @@ const NewQuestions: React.FC<NewQuestionsProps> = ({
     };
 
     handleSetQuestions(newQuestionItem);
+
+    showToast("success", "Question is added.");
 
     // Reset states
     setNewQuestion("");
