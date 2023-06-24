@@ -33,10 +33,8 @@ const HomePage: React.FC<HomePageProps> = ({ quizList, quizOptions }) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <Header />
-
-      <h3 className="my-3 text-xl font-bold text-primary">Public quizzes</h3>
 
       <SearchQuiz
         quizOptions={quizOptions}

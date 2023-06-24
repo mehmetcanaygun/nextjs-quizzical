@@ -36,7 +36,7 @@ const Questions: React.FC<QuestionItemProps> = ({
             onClick={() => handleAnswerClick(a)}
             className={
               selectedAnswer === a
-                ? `${btnClass} bg-secondary`
+                ? `${btnClass} bg-gradient-to-b from-teal-300 to-teal-400 text-light`
                 : `${btnClass} bg-white`
             }
           >

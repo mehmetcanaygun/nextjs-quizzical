@@ -103,23 +103,27 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
 
       <div className="flex flex-col gap-10">
         {/* Quiz header info */}
-        <div className="flex flex-col items-start gap-2 md:flex-row md:justify-between">
-          <div>
-            <h3 className="text-xl mb-2">
-              Created by{" "}
-              <span className="text-primary">{quizDetail.owner}</span>{" "}
-              {formatDate(quizDetail.createdAt)}.
-            </h3>
-            <p className="text-sm text-gray-500">{quizDetail._id.toString()}</p>
-          </div>
+        <div className="p-1 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500">
+          <div className="flex flex-col items-start gap-2 md:flex-row md:justify-between p-2 bg-white rounded-md">
+            <div>
+              <h3 className="text-xl mb-2">
+                Created by{" "}
+                <span className="text-primary">{quizDetail.owner}</span>{" "}
+                {formatDate(quizDetail.createdAt)}.
+              </h3>
+              <p className="text-sm text-gray-500">
+                {quizDetail._id.toString()}
+              </p>
+            </div>
 
-          <div className="flex flex-row md:flex-col items-end justify-between gap-2">
-            <span className="flex gap-2">
-              <Image src={HashIcon} alt="hash icon" /> {quizDetail.genre}
-            </span>
-            <span className="flex gap-2">
-              <Image src={ZapIcon} alt="hash icon" /> {quizDetail.difficulty}
-            </span>
+            <div className="flex flex-row md:flex-col items-end justify-between gap-2">
+              <span className="flex gap-2">
+                <Image src={HashIcon} alt="hash icon" /> {quizDetail.genre}
+              </span>
+              <span className="flex gap-2">
+                <Image src={ZapIcon} alt="hash icon" /> {quizDetail.difficulty}
+              </span>
+            </div>
           </div>
         </div>
 
