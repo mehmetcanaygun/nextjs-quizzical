@@ -1,4 +1,4 @@
-import { SolveQuizParams, CreateQuizParams } from "@/types";
+import { SolveQuizParams, CreateQuizParams, SearchQuizParams } from "@/types";
 import { getErrorMessage } from "@/utils";
 
 const BASE_URL = "http://localhost:3000/api";
@@ -123,5 +123,32 @@ export const createQuiz = async (params: CreateQuizParams) => {
     console.log(errorMessage);
 
     return {};
+  }
+};
+
+export const searchQuiz = async (params: SearchQuizParams) => {
+  try {
+    const searchParams = Object.entries(params)
+      .filter(([key, value]) => !!value)
+      .map((item) => `${item[0]}=${item[1]}`)
+      .join("&");
+
+    const response = await fetch(`${BASE_URL}/quiz/search?${searchParams}`);
+
+    if (!response.ok) {
+      // To-do: Add notification
+      console.log("Something went wrong.");
+      return [];
+    }
+
+    const data = await response.json();
+
+    return data.searchResult;
+  } catch (error) {
+    // To-do: Add notification
+    const errorMessage = getErrorMessage(error);
+    console.log(errorMessage);
+
+    return [];
   }
 };

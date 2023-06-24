@@ -47,3 +47,9 @@ export type CreateQuizParams = {
   questions: Question[];
   isPublic: boolean;
 };
+
+export type SearchQuizParams = {
+  genre: string;
+  difficulty: string;
+  owner: string;
+};
