@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Question } from "@/types";
 
 type QuestionItemProps = {
   question: Question;
   index: number;
+  solvedSuccessfully: boolean;
   onAnswer: (question: string, answer: string) => void;
 };
 
 const Questions: React.FC<QuestionItemProps> = ({
   question,
   index,
+  solvedSuccessfully,
   onAnswer,
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+
+  useEffect(() => {
+    if (solvedSuccessfully) {
+      setSelectedAnswer("");
+    }
+  }, [solvedSuccessfully]);
 
   const handleAnswerClick = (a: string) => {
     setSelectedAnswer(a);

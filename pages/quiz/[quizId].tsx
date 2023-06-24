@@ -19,8 +19,11 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
   const [username, setUsername] = useState<string>("");
-  const [result, setResult] = useState<Participant[]>([]);
+  const [participants, setParticipants] = useState<Participant[]>(
+    quizDetail.participants
+  );
   const [resultModalVisible, setResultModalVisible] = useState<boolean>(false);
+  const [solvedSuccessfully, setSolvedSuccessfully] = useState<boolean>(false);
 
   const onAnswer = (question: string, answer: string) => {
     const newUserAnswer = { question, answer };
@@ -55,6 +58,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
   const onModalClose = () => {
     setUsername("");
     setUserAnswers([]);
+    setSolvedSuccessfully(false);
     setResultModalVisible(false);
   };
 
@@ -78,14 +82,11 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
 
     if (result) {
       // Show the result which is the updated participants list
-      setResult(result);
+      setParticipants(result);
       setResultModalVisible(true);
+      setSolvedSuccessfully(true);
     }
   };
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   if (!quizDetail) {
     return <p className="text-gray-500">There's nothing to show...</p>;
@@ -96,10 +97,12 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
       {resultModalVisible && (
         <ResultModal
           title="Result"
-          result={result}
+          result={participants}
           onModalClose={onModalClose}
         />
       )}
+
+      {loading && <Spinner />}
 
       <div className="flex flex-col gap-10">
         {/* Quiz header info */}
@@ -128,7 +131,11 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
         </div>
 
         {/* Questions */}
-        <Questions questions={quizDetail.questions} onAnswer={onAnswer} />
+        <Questions
+          questions={quizDetail.questions}
+          solvedSuccessfully={solvedSuccessfully}
+          onAnswer={onAnswer}
+        />
 
         <div className="flex justify-end gap-2">
           <input
@@ -149,6 +156,30 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
         </div>
 
         {/* Participants */}
+        {participants.length > 0 && (
+          <div className="flex flex-col gap-3 max-h-80 overflow-y-auto">
+            <div>
+              <h3 className="text-primary pl-2 font-bold border-l-4 border-l-primary">
+                These are the participants so far
+              </h3>
+              <p className="text-sm text-gray-400">Can you do any better? 😎</p>
+            </div>
+
+            <ul className="flex flex-col gap-2">
+              {participants.map((item) => (
+                <li
+                  key={item.username}
+                  className="h-8 bg-light rounded text-gray-600 shadow flex justify-between items-center"
+                >
+                  <span className="pl-3">{item.username}</span>
+                  <span className="w-8 h-full rounded-r flex justify-center items-center font-bold text-light bg-primary">
+                    {item.score}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </Fragment>
   );
