@@ -7,10 +7,10 @@ export const App = ({ Component, pageProps }: AppProps) => {
   return (
     <Layout>
       <Head>
-        <title>NextJS App</title>
+        <title>Quizzical: Unleash Your Quiz Wizardry!</title>
         <meta
           name="description"
-          content="This is a NextJs + TS + TailwindCSS starter app."
+          content="Quizzical: Unleash Your Quiz Wizardry! Create and solve fun quizzes."
         />
       </Head>
       <Component {...pageProps} />

@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import { getSingleQuiz, solveQuiz } from "@/services";
 import Questions from "@/components/quiz/Questions";
@@ -94,6 +95,11 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
 
   return (
     <Fragment>
+      <Head>
+        <title>Quizzical: Solve quiz</title>
+        <meta name="description" content="Quizzical: Solve quiz" />
+      </Head>
+
       {resultModalVisible && (
         <ResultModal
           title="Result"
