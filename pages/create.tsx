@@ -36,6 +36,16 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
     setQuestions((prev) => [...prev, newQuestion]);
   };
 
+  const handleDeleteQuestion = (questionItem: Question) => {
+    const updatedQuestions = questions.filter(
+      (q) => q.question !== questionItem.question
+    );
+
+    setQuestions(updatedQuestions);
+
+    showToast("success", "Question is deleted.");
+  };
+
   const handleCreateQuiz = async () => {
     // Check min questions length
     if (questions.length < 5) {
@@ -146,11 +156,10 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <button className="py-1 px-2 rounded bg-info text-light flex items-center gap-2">
-                    <Image src={Edit2Icon} alt="Pen icon" width={16} />
-                  </button>
-
-                  <button className="py-1 px-2 rounded bg-danger text-light flex items-center gap-2">
+                  <button
+                    onClick={() => handleDeleteQuestion(question)}
+                    className="py-1 px-2 rounded bg-danger hover:bg-rose-800 text-light flex items-center gap-2 transition"
+                  >
                     <Image src={TrashIcon} alt="Pen icon" width={16} />
                   </button>
                 </div>
