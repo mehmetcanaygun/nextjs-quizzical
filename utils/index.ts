@@ -18,3 +18,8 @@ export const generateUniqueUserTag = (): string => {
 
   return `#${uniqueNumber}`;
 };
+
+export const hasDuplicates = <T>(list: T[]): boolean => {
+  const set = new Set(list);
+  return set.size !== list.length;
+};

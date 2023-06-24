@@ -74,3 +74,25 @@ export const solveQuiz = async (params: SolveQuizParams) => {
     return {};
   }
 };
+
+export const getQuizOptions = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/quiz/options`);
+
+    if (!response.ok) {
+      // To-do: Add notification
+      console.log("Something went wrong.");
+      return {};
+    }
+
+    const data = await response.json();
+
+    return data.quizOptions;
+  } catch (error) {
+    // To-do: Add notification
+    const errorMessage = getErrorMessage(error);
+    console.log(errorMessage);
+
+    return {};
+  }
+};

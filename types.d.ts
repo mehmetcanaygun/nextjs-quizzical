@@ -34,3 +34,8 @@ export type SolveQuizParams = {
   username: string;
   userAnswers: UserAnswer[];
 };
+
+export type QuizOptions = {
+  categories: string[];
+  difficulties: string[];
+};
