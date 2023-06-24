@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { Fragment, useState } from "react";
+import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
 import { getSingleQuiz, solveQuiz } from "@/services";
 import Questions from "@/components/quiz/Questions";
@@ -9,31 +9,17 @@ import { formatDate, generateUniqueUserTag, showToast } from "@/utils";
 import HashIcon from "@/public/assets/Hash.svg";
 import ZapIcon from "@/public/assets/zap.svg";
 
-const QuizPage: React.FC = () => {
-  const router = useRouter();
-  const { quizId } = router.query;
+type QuizPageProps = {
+  quizDetail: QuizDetail;
+};
 
+const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
   // State
-  const [quiz, setQuiz] = useState<QuizDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
   const [username, setUsername] = useState<string>("");
   const [result, setResult] = useState<Participant[]>([]);
   const [resultModalVisible, setResultModalVisible] = useState<boolean>(false);
-
-  useEffect(() => {
-    handleQuizDetail();
-  }, []);
-
-  const handleQuizDetail = async () => {
-    if (quizId) {
-      setLoading(true);
-      const quizDetail = await getSingleQuiz(quizId as string);
-      setLoading(false);
-
-      setQuiz(quizDetail);
-    }
-  };
 
   const onAnswer = (question: string, answer: string) => {
     const newUserAnswer = { question, answer };
@@ -77,10 +63,10 @@ const QuizPage: React.FC = () => {
       return;
     }
 
-    if (!quiz) return;
+    if (!quizDetail) return;
 
     const params: SolveQuizParams = {
-      quizId: quiz._id.toString()!,
+      quizId: quizDetail._id.toString()!,
       username: `${username}${generateUniqueUserTag()}`,
       userAnswers,
     };
@@ -100,7 +86,7 @@ const QuizPage: React.FC = () => {
     return <h1 className="text-4xl text-center">LOADING...</h1>;
   }
 
-  if (!quiz) {
+  if (!quizDetail) {
     return <p className="text-gray-500">There's nothing to show...</p>;
   }
 
@@ -119,24 +105,25 @@ const QuizPage: React.FC = () => {
         <div className="flex flex-col items-start gap-2 md:flex-row md:justify-between">
           <div>
             <h3 className="text-xl mb-2">
-              Created by <span className="text-primary">{quiz.owner}</span>{" "}
-              {formatDate(quiz.createdAt)}.
+              Created by{" "}
+              <span className="text-primary">{quizDetail.owner}</span>{" "}
+              {formatDate(quizDetail.createdAt)}.
             </h3>
-            <p className="text-sm text-gray-500">{quiz._id.toString()}</p>
+            <p className="text-sm text-gray-500">{quizDetail._id.toString()}</p>
           </div>
 
           <div className="flex flex-row md:flex-col items-end justify-between gap-2">
             <span className="flex gap-2">
-              <Image src={HashIcon} alt="hash icon" /> {quiz.genre}
+              <Image src={HashIcon} alt="hash icon" /> {quizDetail.genre}
             </span>
             <span className="flex gap-2">
-              <Image src={ZapIcon} alt="hash icon" /> {quiz.difficulty}
+              <Image src={ZapIcon} alt="hash icon" /> {quizDetail.difficulty}
             </span>
           </div>
         </div>
 
         {/* Questions */}
-        <Questions questions={quiz.questions} onAnswer={onAnswer} />
+        <Questions questions={quizDetail.questions} onAnswer={onAnswer} />
 
         <div className="flex justify-end gap-2">
           <input
@@ -148,7 +135,7 @@ const QuizPage: React.FC = () => {
           />
 
           <button
-            disabled={userAnswers.length !== quiz.questions.length}
+            disabled={userAnswers.length !== quizDetail.questions.length}
             onClick={handleSolveQuiz}
             className="bg-primary hover:bg-blue-600 text-light py-2 px-4 rounded-md shadow transition"
           >
@@ -161,5 +148,16 @@ const QuizPage: React.FC = () => {
     </Fragment>
   );
 };
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { quizId } = context.query;
+  const quizDetail = await getSingleQuiz(quizId as string);
+
+  return {
+    props: {
+      quizDetail,
+    },
+  };
+}
 
 export default QuizPage;
