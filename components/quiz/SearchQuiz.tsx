@@ -55,7 +55,7 @@ const SearchQuiz: React.FC<SearchQuizProps> = ({
 
   return (
     <div className="mb-6">
-      <form className="flex gap-3">
+      <form className="flex flex-col md:flex-row gap-3">
         <QuizOptions
           quizOptions={quizOptions}
           selectedCategory={selectedCategory}
@@ -64,7 +64,7 @@ const SearchQuiz: React.FC<SearchQuizProps> = ({
           handleDifficultyChange={handleDifficultyChange}
         />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 w-[200px]">
           <label htmlFor="username" className="text-sm">
             Username
           </label>
@@ -75,11 +75,11 @@ const SearchQuiz: React.FC<SearchQuizProps> = ({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Search for a user"
-            className="flex-1 py-1 px-4 rounded border"
+            className="flex-1 py-1 px-3 rounded border"
           />
         </div>
 
-        <div className="place-self-end flex flex-col gap-1 items-end">
+        <div className="w-full md:place-self-end flex flex-col gap-1 items-start md:items-end">
           <button
             type="button"
             onClick={handleReset}
