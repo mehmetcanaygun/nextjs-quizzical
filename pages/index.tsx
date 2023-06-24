@@ -1,8 +1,9 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
+import { getAllQuizzes, getQuizOptions, searchQuiz } from "@/services";
 import QuizList from "@/components/quiz/QuizList";
 import Header from "@/components/ui/Header";
 import SearchQuiz from "@/components/quiz/SearchQuiz";
-import { getAllQuizzes, getQuizOptions, searchQuiz } from "@/services";
+import Spinner from "@/components/ui/Spinner";
 import { Quiz, QuizOptions, SearchQuizParams } from "@/types";
 
 type HomePageProps = {
@@ -43,11 +44,7 @@ const HomePage: React.FC<HomePageProps> = ({ quizList, quizOptions }) => {
         handleResetSearch={handleResetSearch}
       />
 
-      {loading ? (
-        <h1 className="text-4xl text-center">LOADING...</h1>
-      ) : (
-        <QuizList quizList={displayedList} />
-      )}
+      {loading ? <Spinner /> : <QuizList quizList={displayedList} />}
     </div>
   );
 };

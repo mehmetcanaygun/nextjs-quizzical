@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getSingleQuiz, solveQuiz } from "@/services";
 import Questions from "@/components/quiz/Questions";
 import ResultModal from "@/components/quiz/ResultModal";
+import Spinner from "@/components/ui/Spinner";
 import { Participant, QuizDetail, SolveQuizParams, UserAnswer } from "@/types";
 import { formatDate, generateUniqueUserTag, showToast } from "@/utils";
 import HashIcon from "@/public/assets/Hash.svg";
@@ -83,7 +84,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ quizDetail }) => {
   };
 
   if (loading) {
-    return <h1 className="text-4xl text-center">LOADING...</h1>;
+    return <Spinner />;
   }
 
   if (!quizDetail) {

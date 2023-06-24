@@ -21,8 +21,8 @@ module.exports = {
         center: true,
       },
       animation: {
-        fadeIn: "fadeIn 1s ease-in forwards",
-        fadeOut: "fadeOut 1s ease-out forwards",
+        fadeIn: "fadeIn 0.5s ease-in forwards",
+        fadeOut: "fadeOut 0.5s ease-out forwards",
         slideRight: "slideRight 0.5s ease-in forwards",
         slideLeft: "slideLeft 0.5s ease-in forwards",
         slideUp: "slideUp 0.5s ease-in forwards",

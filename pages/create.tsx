@@ -3,8 +3,8 @@ import Image from "next/image";
 import { getQuizOptions, createQuiz } from "@/services";
 import QuizOptions from "@/components/quiz/QuizOptions";
 import NewQuestions from "@/components/quiz/NewQuestions";
+import Spinner from "@/components/ui/Spinner";
 import { Question, QuizOptions as QuizOptionsType } from "@/types";
-import Edit2Icon from "@/public/assets/edit-2.svg";
 import TrashIcon from "@/public/assets/trash.svg";
 import { showToast } from "@/utils";
 
@@ -97,7 +97,7 @@ const CreatePage: React.FC<CreatePageProps> = ({ quizOptions }) => {
   };
 
   if (loading) {
-    return <h1 className="text-4xl text-center">LOADING...</h1>;
+    return <Spinner />;
   }
 
   return (
