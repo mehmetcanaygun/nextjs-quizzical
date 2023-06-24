@@ -3,7 +3,7 @@ import Head from "next/head";
 import Layout from "@/components/layout/Layout";
 import "@/styles/globals.css";
 
-export default function App({ Component, pageProps }: AppProps) {
+export const App = ({ Component, pageProps }: AppProps) => {
   return (
     <Layout>
       <Head>
@@ -16,4 +16,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
     </Layout>
   );
-}
+};
+
+export default App;
