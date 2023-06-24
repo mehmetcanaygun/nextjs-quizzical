@@ -1,6 +1,7 @@
 import { useState } from "react";
 import QuizOptions from "./QuizOptions";
 import { QuizOptions as QuizOptionsType, SearchQuizParams } from "@/types";
+import { showToast } from "@/utils";
 
 type SearchQuizProps = {
   quizOptions: QuizOptionsType;
@@ -39,7 +40,7 @@ const SearchQuiz: React.FC<SearchQuizProps> = ({
 
   const handleSearchClick = () => {
     if (!(selectedCategory || selectedDifficulty || username)) {
-      alert("Fill category, difficulty or username to search.");
+      showToast("warn", "Fill category, difficulty or username to search.");
       return;
     }
 
